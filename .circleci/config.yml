@@ -308,7 +308,9 @@ jobs:
 
       - run:
           name: Run zap
-          command: python3 zap/scripts/sel.py
+          command: |
+            sudo pip3 install pyotp
+            python3 zap/scripts/sel.py
 
       - store_test_results:
           path: ~/project/zap-results
