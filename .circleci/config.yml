@@ -288,6 +288,7 @@ jobs:
             while ! (systemctl list-units --all apt-daily.service | egrep -q '(dead|failed)') do sleep 1; done
             ( sudo apt-get update || sudo apt-get update )
             sudo apt-get install -y openjdk-17-jre-headless wget firefox python3-selenium
+            export GECKODRIVER_VER=v0.29.1
             wget https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VER}/geckodriver-${GECKODRIVER_VER}-linux64.tar.gz -O /tmp/geckodriver.tar.gz
             cd /tmp
             tar -xvzf geckodriver.tar.gz
