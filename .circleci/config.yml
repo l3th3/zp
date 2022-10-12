@@ -303,14 +303,12 @@ jobs:
 
       - run:
           name: Run zap daemon
-          command: zap.sh -daemon -port 8090 -config api.disablekey=true
+          command: zap.sh -daemon -port 8090 -config api.disablekey=true -config hud.enabled=false -config hud.enabledForDesktop=false
           background: true
 
       - run:
           name: Run zap
-          command: |
-            chmod u+x zap/scripts/run_tests.sh
-            zap/scripts/run_tests.sh
+          command: python zap/scripts/sel.py
 
       - store_test_results:
           path: ~/project/zap-results
