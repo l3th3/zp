@@ -298,6 +298,7 @@ jobs:
             sudo /tmp/zap_installer.sh -q
             zap.sh -cmd -addoninstall jython
             pip3 install zapcli pyotp selenium
+            echo $PATH
       
       - run:
           name: Run dev instance
