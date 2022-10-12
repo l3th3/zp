@@ -108,7 +108,7 @@ def scan(base_url: str, login_fn=None, report_file="report.html"):
 
 def test_proxy_connection(test_url: str):
     driver = start_driver()
-    print("Waiting for proxy...")
+    print("Waiting for zap proxy...")
     for i in range(10):
         try:
             driver.get(test_url)
