@@ -6,6 +6,7 @@ from enum import Enum
 from selenium.webdriver import Firefox, FirefoxOptions
 from selenium.webdriver.common.proxy import Proxy
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import WebDriverException
 
 
 # Test credentials from https://developers.securedrop.org/en/latest/setup_development.html#using-the-docker-environment
@@ -98,7 +99,19 @@ def scan(base_url: str, login_fn=None, report_file="report.html"):
     driver.quit()
 
 
+def test_proxy_connection(test_url):
+    options = get_ff_options()
+    driver = Firefox(options=options)
+    for i in range(10)
+        try:
+            driver.get(test_url)
+            break
+        except WebDriverException:
+            sleep(6)
+
+
 def main():
+    test_proxy_connection(SOURCE_URL)
     jrn_res = scan(JOURNALIST_URL, login_fn=prepare_journalist_iface, report_file="jrn_report.html")
     src_res = scan(SOURCE_URL, login_fn=prepare_source_iface, report_file="src_report.html")
     if not src_res or not jrn_res:
