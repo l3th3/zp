@@ -108,6 +108,7 @@ def scan(base_url: str, login_fn=None, report_file="report.html"):
 
 def test_proxy_connection(test_url: str):
     driver = start_driver()
+    print("Waiting for proxy...")
     for i in range(10):
         try:
             driver.get(test_url)
@@ -120,7 +121,7 @@ def test_proxy_connection(test_url: str):
 def test_connection(url: str, test_fn):
     driver = start_driver()
     for i in range(50):
-        print(f"Waiting for {url}")
+        print(f"Waiting for {url}...")
         try:
             driver.get(url)
             test_fn(driver)
@@ -144,15 +145,30 @@ def wait_for_services():
     jrn_url = "{0}/login".format(JOURNALIST_URL)
     src_url = "{0}/generate".format(SOURCE_URL)
     test_proxy_connection(SOURCE_URL)
+    print("Proxy is up")
     test_connection(jrn_url, jrn_check)
+    print("Journalist interface is up")
     test_connection(src_url, src_check)
+    print("Source interface is up")
 
 
 def main():
     wait_for_services()
+    print("Starting scan of journalist interface")
     jrn_res = scan(JOURNALIST_URL, login_fn=prepare_journalist_iface, report_file="jrn_report.html")
+    if jrn_res:
+        print("Journalist interface scan complete")
+        print("Starting scan of source interface")
+    else:
+        print("Journalist interface scan encountered an error; proceeding to source interface scan")
     src_res = scan(SOURCE_URL, login_fn=prepare_source_iface, report_file="src_report.html")
+    if jrn_res:
+        print("Source interface scan complete")
+    else:
+        print("Source interface scan encountered an error")
     if not src_res or not jrn_res:
+        if not jrn_res: print("Journalist interface failed to complete")
+        if not src_res: print("Source interface failed to complete")
         exit(1)
 
 
