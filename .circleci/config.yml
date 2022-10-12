@@ -318,10 +318,10 @@ jobs:
             python3 zap/scripts/sel.py
 
       - store_test_results:
-          path: ~/project/zap-results
+          path: ~/project/jrn_report.html
 
       - store_artifacts:
-          path: ~/project/zap-results
+          path: ~/project/src_report.html
 
 
   staging-test-with-rebase:
