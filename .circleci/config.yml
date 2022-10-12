@@ -280,7 +280,7 @@ jobs:
       - *savecache
 
       - run:
-          name: Install zap
+          name: Install dependencies
           command: |
             echo Test
             sudo systemctl stop apt-daily.service
@@ -292,7 +292,7 @@ jobs:
             chmod u+x /tmp/zap_installer.sh
             sudo /tmp/zap_installer.sh -q
             zap.sh -cmd -addoninstall jython
-            sudo pip3 install zapcli
+            sudo pip3 install zapcli pyotp
       
       - run:
           name: Run dev instance
