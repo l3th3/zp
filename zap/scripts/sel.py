@@ -102,7 +102,7 @@ def scan(base_url: str, login_fn=None, report_file="report.html"):
 def test_proxy_connection(test_url):
     options = get_ff_options()
     driver = Firefox(options=options)
-    for i in range(10)
+    for i in range(10):
         try:
             driver.get(test_url)
             break
