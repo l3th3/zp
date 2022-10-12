@@ -282,7 +282,6 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            echo Test
             sudo systemctl stop apt-daily.service
             sudo systemctl kill --kill-who=all apt-daily.service
             while ! (systemctl list-units --all apt-daily.service | egrep -q '(dead|failed)') do sleep 1; done
@@ -298,7 +297,6 @@ jobs:
             sudo /tmp/zap_installer.sh -q
             zap.sh -cmd -addoninstall jython
             pip3 install zapcli pyotp selenium
-            echo $PATH
       
       - run:
           name: Run dev instance
