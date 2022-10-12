@@ -296,7 +296,7 @@ jobs:
             chmod u+x /tmp/zap_installer.sh
             sudo /tmp/zap_installer.sh -q
             zap.sh -cmd -addoninstall jython
-            pip3 install -U zapcli pyotp selenium
+            pip3 install -U zapcli pyotp selenium urllib3<1.25
       
       - run:
           name: Run dev instance
