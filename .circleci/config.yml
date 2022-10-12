@@ -292,7 +292,7 @@ jobs:
             chmod u+x /tmp/zap_installer.sh
             sudo /tmp/zap_installer.sh -q
             zap.sh -cmd -addoninstall jython
-            sudo pip3 install zapcli pyotp
+            pip3 install zapcli pyotp
       
       - run:
           name: Run dev instance
@@ -309,7 +309,6 @@ jobs:
       - run:
           name: Run zap
           command: |
-            sudo pip3 install pyotp
             python3 zap/scripts/sel.py
 
       - store_test_results:
