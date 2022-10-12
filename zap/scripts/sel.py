@@ -26,6 +26,9 @@ class ReportType(Enum):
     MARKDOWN = 3
 
 
+class ServiceNotUpException(Exception): pass
+
+
 def get_ff_options(proxy_addr="127.0.0.1:8090") -> FirefoxOptions:
     options = FirefoxOptions()
     options.set_preference("network.proxy.allow_hijacking_localhost", True)
@@ -122,6 +125,8 @@ def test_connection(url: str, test_fn):
             test_fn(driver)
             break
         except NoSuchElementException:
+            if i == 10:
+                raise ServiceNotUpException(f"Failed to connect to {url}")
             sleep(10)
     driver.quit()
 
