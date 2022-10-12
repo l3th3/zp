@@ -147,6 +147,7 @@ def wait_for_services():
 
 
 def main():
+    wait_for_services()
     jrn_res = scan(JOURNALIST_URL, login_fn=prepare_journalist_iface, report_file="jrn_report.html")
     src_res = scan(SOURCE_URL, login_fn=prepare_source_iface, report_file="src_report.html")
     if not src_res or not jrn_res:
