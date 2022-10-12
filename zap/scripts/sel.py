@@ -119,7 +119,8 @@ def test_proxy_connection(test_url: str):
 
 def test_connection(url: str, test_fn):
     driver = start_driver()
-    for i in range(10):
+    for i in range(50):
+        print(f"Waiting for {url}")
         try:
             driver.get(url)
             test_fn(driver)
