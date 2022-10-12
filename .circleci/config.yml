@@ -292,7 +292,7 @@ jobs:
             wget https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VER}/geckodriver-${GECKODRIVER_VER}-linux64.tar.gz -O /tmp/geckodriver.tar.gz
             cd /tmp
             tar -xvzf geckodriver.tar.gz
-            sudo install geckodriver /usr/bin/local
+            sudo install geckodriver /usr/local/bin
             wget https://github.com/zaproxy/zaproxy/releases/download/v2.11.1/ZAP_2_11_1_unix.sh -O /tmp/zap_installer.sh
             chmod u+x /tmp/zap_installer.sh
             sudo /tmp/zap_installer.sh -q
