@@ -141,9 +141,11 @@ def jrn_check(driver: Firefox):
 
 
 def wait_for_services():
+    jrn_url = "{0}/login".format(JOURNALIST_URL)
+    src_url = "{0}/generate".format(SOURCE_URL)
     test_proxy_connection(SOURCE_URL)
-    test_connection(JOURNALIST_URL, jrn_check)
-    test_connection(SOURCE_URL, src_check)
+    test_connection(jrn_url, jrn_check)
+    test_connection(src_url, src_check)
 
 
 def main():
