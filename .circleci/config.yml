@@ -308,7 +308,7 @@ jobs:
 
       - run:
           name: Run zap
-          command: python zap/scripts/sel.py
+          command: python3 zap/scripts/sel.py
 
       - store_test_results:
           path: ~/project/zap-results
