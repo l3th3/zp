@@ -6,7 +6,7 @@ from enum import Enum
 from selenium.webdriver import Firefox, FirefoxOptions
 from selenium.webdriver.common.proxy import Proxy
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import WebDriverException
+from selenium.common.exceptions import WebDriverException, NoSuchElementException
 
 
 # Test credentials from https://developers.securedrop.org/en/latest/setup_development.html#using-the-docker-environment
@@ -36,6 +36,11 @@ def get_ff_options(proxy_addr="127.0.0.1:8090") -> FirefoxOptions:
     options.proxy = proxy
     options.headless = True
     return options
+
+
+def start_driver() -> Firefox():
+    options = get_ff_options()
+    return Firefox(options=options)
 
 
 def prepare_source_iface(base_url: str, driver: Firefox):
@@ -89,8 +94,7 @@ def run_zap_scan(base_url: str, outfile="report.html") -> bool:
 
 
 def scan(base_url: str, login_fn=None, report_file="report.html"):
-    options = get_ff_options()
-    driver = Firefox(options=options)
+    driver = start_driver()
     driver.get(base_url)
     sleep(2)
     if login_fn:
@@ -99,19 +103,44 @@ def scan(base_url: str, login_fn=None, report_file="report.html"):
     driver.quit()
 
 
-def test_proxy_connection(test_url):
-    options = get_ff_options()
-    driver = Firefox(options=options)
+def test_proxy_connection(test_url: str):
+    driver = start_driver()
     for i in range(10):
         try:
             driver.get(test_url)
             break
         except WebDriverException:
-            sleep(6)
+            sleep(10)
+    driver.quit()
+
+
+def test_connection(url: str, test_fn):
+    driver = start_driver()
+    for i in range(10):
+        try:
+            driver.get(url)
+            test_fn(driver)
+            break
+        except NoSuchElementException:
+            sleep(10)
+    driver.quit()
+
+
+def src_check(driver: Firefox):
+    driver.find_element(By.ID, "codename")
+
+
+def jrn_check(driver: Firefox):
+    driver.find_element(By.ID, "username")
+
+
+def wait_for_services():
+    test_proxy_connection(SOURCE_URL)
+    test_connection(JOURNALIST_URL, jrn_check)
+    test_connection(SOURCE_URL, src_check)
 
 
 def main():
-    test_proxy_connection(SOURCE_URL)
     jrn_res = scan(JOURNALIST_URL, login_fn=prepare_journalist_iface, report_file="jrn_report.html")
     src_res = scan(SOURCE_URL, login_fn=prepare_source_iface, report_file="src_report.html")
     if not src_res or not jrn_res:
